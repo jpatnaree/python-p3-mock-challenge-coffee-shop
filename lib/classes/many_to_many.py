@@ -28,12 +28,15 @@ class Coffee:
         return len(self.orders())
     
     def average_price(self):
-        all_price = [o.price for o in Order.all if o.coffee == self]
-        return mean(all_price)
+        price = [o.price for o in Order.all if o.coffee == self]
+        return mean(price)
 
 class Customer:
+    all = []
+
     def __init__(self, name):
         self.name = name
+        Customer.all.append(self)
 
     @property
     def name(self):
@@ -54,6 +57,10 @@ class Customer:
     
     def create_order(self, coffee, price):
         return Order(self, coffee, price)
+    
+    @classmethod
+    def most_aficionado(coffee):
+        pass
 
 class Order:
 
