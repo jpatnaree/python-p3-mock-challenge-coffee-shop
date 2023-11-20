@@ -32,12 +32,10 @@ class Coffee:
         return mean(price)
 
 class Customer:
-    all = []
-
+    
     def __init__(self, name):
         self.name = name
-        Customer.all.append(self)
-
+        
     @property
     def name(self):
         return self._name
