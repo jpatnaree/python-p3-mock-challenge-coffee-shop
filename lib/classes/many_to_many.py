@@ -30,8 +30,12 @@ class Coffee:
     def average_price(self):
         price = [o.price for o in Order.all if o.coffee == self]
         return mean(price)
+    # #alternative 
+    #     return mean([o.price for o in self.orders()])
 
 class Customer:
+
+    all = []
     
     def __init__(self, name):
         self.name = name
@@ -55,10 +59,21 @@ class Customer:
     
     def create_order(self, coffee, price):
         return Order(self, coffee, price)
-    
+    #bonus
     @classmethod
-    def most_aficionado(coffee):
-        pass
+    def most_aficionado(cls, coffee):
+        if not coffee.customer():
+            return None
+        else:
+            high_total = 0
+            for customer in Customer.all:
+                customer_total = sum([order.price for order in Order.all if order.customer == customer and order.coffee == coffee])
+                if customer_total > high_total:
+                    high_total = customer_total
+                    big_spender = customer
+            return big_spender
+    
+    
 
 class Order:
 
@@ -83,3 +98,28 @@ class Order:
                 raise Exception('Wrong!')
         else:
             raise Exception('cannot be changed')
+        
+    @property
+    def customer(self):
+        return self._customer
+    
+    @customer.setter
+    def customer(self, new_customer):
+        if isinstance(new_customer, Customer):
+            self._customer = new_customer
+        else:
+            raise Exception('')
+
+    @property
+    def coffee(self):
+        return self._coffee
+    
+    @coffee.setter
+    def coffee(self, new_coffee):
+        if isinstance(new_coffee, Coffee):
+            self._coffee = new_coffee
+        else:
+            raise Exception('')
+        
+
+
